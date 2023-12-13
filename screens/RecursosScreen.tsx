@@ -19,9 +19,10 @@ export default function RecursosScreen() {
       aspect: [19, 6]
     });
 
-    if (!result.canceled) {
+    if (!result.cancelled) {
       console.log(result);
       setImagen(result.assets[0].uri)
+
     } else {
       alert('You did not select any image.');
     }
@@ -29,8 +30,8 @@ export default function RecursosScreen() {
 
 
 
-  async function subir() {
-    const storageRef = ref(storage, 'test/imagen');
+  async function subir( nombre: string ) {
+    const storageRef = ref(storage, 'test/'+nombre);
 
     const response  =await fetch(imagen)
     const blob =await response.blob();
@@ -54,7 +55,7 @@ export default function RecursosScreen() {
       <Text>Subir imagen desde la Galería</Text>
       <Button title='Seleccionar imagen' onPress={() => pickImageAsync()} />
       <Image source={{ uri: imagen }} style={styles.img} />
-      <Button title='Subir' onPress={() => subir()} />
+      <Button title='Subir' onPress={() => subir("foto1")} />
     </View>
   )
 }
