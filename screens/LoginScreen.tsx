@@ -14,57 +14,91 @@ export default function LoginScreen({ navigation }: any) {
   function login() {
     signInWithEmailAndPassword(auth, correo, contrasenia)
       .then((userCredential) => {
-        // Signed in 
         const user = userCredential.user
-        //console.log(user)
         console.log("Acceso correcto")
         navigation.navigate('Drawer_Welcome')
+        setCorreo('')
+        setContrasenia('')
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        const errorCode = error.code
+        const errorMessage = error.message
         console.log("Acceso denegado")
-        //Alert.alert("Error", "Error en las credenciales")
-        console.log(errorCode)
-        console.log(errorMessage)
 
-        if(errorCode === 'auth/missing-password'){
-          Alert.alert("Error", "No puede ingresar una contraseña en blanco")
-        } else if( errorCode === 'auth/wrong-password'){
-          Alert.alert("Error", "Error en las credenciales")
-        } else{
-          Alert.alert("Error", "Comuniquese con el admin")
+        switch (errorCode) {
+          case 'auth/missing-password':
+            Alert.alert('Error', 'No puede ingresar una contraseña en blanco')
+            break
+          case 'auth/wrong-password':
+            Alert.alert('Error', 'Error en las credenciales')
+            break
+          default:
+            Alert.alert('Error', 'Comuniquese con el admin')
+            console.log(errorCode)
+            console.log(errorMessage)
+            break
         }
-
-
-      });
+      })
   }
 
   return (
-    <View>
-      <Text style={{ fontSize: 30 }}>Login</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Login</Text>
 
       <TextInput
+        style={styles.input}
         placeholder='Ingrese email'
-        onChangeText={(texto) => (setCorreo(texto))}
-      
+        onChangeText={(texto) => setCorreo(texto)}
       />
 
       <TextInput
+        style={styles.input}
         placeholder='Ingrese su contraseña'
-        onChangeText={(texto) => (setContrasenia(texto))}
-        secureTextEntry= {true}
+        onChangeText={(texto) => setContrasenia(texto)}
+        secureTextEntry={true}
       />
 
-      <Button title='Ingresar' onPress={ ()=> login() } />
+      <Button
+        title='Ingresar'
+        onPress={login}
+      />
 
-      <Text onPress={() => navigation.navigate('Registro')}> 👉 Regístrate aquí 👈</Text>
+      <Text
+        style={styles.link}
+        onPress={() => navigation.navigate('Registro')}>
+        Regístrate aquí
+      </Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-
-  }
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  input: {
+    height: 40,
+    borderRadius: 5,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    padding: 10,
+  },
+  button: {
+    backgroundColor: '#000',
+    color: '#fff',
+    height: 40,
+    borderRadius: 5,
+    fontWeight: 'bold',
+  },
+  link: {
+    color: '#000',
+    fontWeight: 'bold',
+  },
 })

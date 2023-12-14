@@ -3,7 +3,7 @@ import { getAuth } from 'firebase/auth'
 import { getStorage } from "firebase/storage";
 
 ///SOLUCIÓN DE WARNING
-import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+  import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage'; 
 
 // Your web app's Firebase configuration
